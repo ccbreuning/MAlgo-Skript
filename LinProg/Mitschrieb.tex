@@ -84,6 +84,7 @@ $\sum_{(u,v) \in E}f(u.v) = \sum_{(v,u) \in E}f(u,v) \forall u \in V-{s,t}$ (2)
 	\includegraphics[scale=0.5]{img/dia2}
 \end{center}
 Simplex: Move from corner to corner
+
 \subsection{Standard form}
 \paragraph{Maximization} $c_1x_1 + c_2x_2 + ... + c_nx_n$
 \paragraph{Subject to} \begin{align*}
@@ -120,7 +121,7 @@ Why not in standard form?
 \item[(1)] minimize $c_1x_1+c_2x_2+...+c_nx_n \Leftrightarrow$ maximize $-c_1x_1-c_2x_2-...-c_nx_n$
 \item[(2)] Equality $a_{j1}x_1 + a_{j2}x_2 + ... + a_{jn}x_n = b_j$ \\ $\Leftrightarrow a_{j1}x_1 + a_{j2}x_2 + ... + a_{jn}x_n \leq b_j$ \\
 $\& (-) a_{j1}x_1 +(-) a_{j2}x_2 +(-) ... +(-) a_{jn}x_n \geq (\leq) b_j$
-\item[(3)] $\geq$ inequality $a_{j1}x_1 + a_{j2}x_2 + ... + a_{jn}x_n \geq b_j \Leftrightarrow -a_{j1}x_1 - a_{j2}x_2 - ... - a_{jn}x_n \leq b_j$
+\item[(3)] $\geq$ inequality $a_{j1}x_1 + a_{j2}x_2 + ... + a_{jn}x_n \geq b_j \Leftrightarrow -a_{j1}x_1 - a_{j2}x_2 - ... - a_{jn}x_n \leq -b_j$
 \item[(4)] Absence of non-negativity constraints.
 \end{itemize}
 Replace: \\ 
@@ -140,10 +141,10 @@ s.t. & \textcolor{red}{$x_1+x_2 = 7$} && s.t. & $x_1+x_2'-x_2'' \leq 7$ \\
 
 \subsubsection{By an example}
 \begin{align*}
-\text{maximize} & 5x_1+4x_2+3x_3 \\
-\text{s.t.} & 2x_1+3x_2+x_3 \leq 5 \\
-\text{(in standard} & 4x_1 + x_2 + 2x_3 \leq 11 \\
-\text{form)} & 3x_1 + 4x_1 + 2x_3 \leq 8 \\
+\text{maximize } & 5x_1+4x_2+3x_3 \\
+\text{s.t. } & 2x_1+3x_2+x_3 \leq 5 \\
+\text{(in standard }  & 4x_1 + x_2 + 2x_3 \leq 11 \\
+\text{form) } & 3x_1 + 4x_1 + 2x_3 \leq 8 \\
 & x_1,x_2,x_3 \geq 0
 \end{align*}
 \begin{itemize}
@@ -170,7 +171,7 @@ How can we find a better solution than $J=0$?
 \paragraph{Observation} If we increase $x_1$ (or $x_2$ od $x_3$) (positive coefficient), then $J$ will also increas, but we must ensure that $x_4,x_5,x_6 \geq 0$ \\
 Since $x_2=x_3 = 0$
 \begin{itemize}
-	\item $x_4 \geq 0 \Rightarrow 5-2x_1 \geq 0 \Leftrightarrow x_1 \leq \frac{5}{2} 2.5$
+	\item $x_4 \geq 0 \Rightarrow 5-2x_1 \geq 0 \Leftrightarrow x_1 \leq \frac{5}{2}= 2.5$
 	\item $x_5 \geq 0 \Rightarrow 11-4x_1 \geq 0 \Leftrightarrow x_1 \leq \frac{11}{4} = 2.75$ 
 	\item $x_6 \geq 0 \Rightarrow 8 -3x_1 \geq 0 \Leftrightarrow x_1 \leq \frac{8}{3}= 2.66...$
 \end{itemize}
