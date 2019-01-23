@@ -1,4 +1,5 @@
 \section{Linear Programming}
+
 \subsection{Problem}
 A factory produces tables and chairs
 \begin{itemize}
@@ -13,7 +14,7 @@ $$x_2: \#chairs \; to \; produce \Rightarrow x_2 \geq 0$$
 \paragraph{Profit} $100(x_1+x_2) = 100 x_1 + 100 x_2$
 \paragraph{Constraints} $x_1 + 2x_2 \leq 600$ and $3x_1+x_2 \leq 900$
 \paragraph{Maximize}  \textcolor{green}{$100x_1+100x_2$} 
-\paragraph{Subject to} \textcolor{yellow}{$x_1 + 2x_2 \leq 600$} and \textcolor{orange}{$3x_1+x_2 \leq 900$} and \textcolor{blue}{$x_1,x_2 \geq 0$} \\
+\paragraph{Subject to (s.t.)} \textcolor{yellow}{$x_1 + 2x_2 \leq 600$} and \textcolor{orange}{$3x_1+x_2 \leq 900$} and \textcolor{blue}{$x_1,x_2 \geq 0$} \\
 \begin{center}
 	\includegraphics[scale=0.75]{img/dia1}
 \end{center}
@@ -42,6 +43,7 @@ $$\text{(a),(b),(c)} \exists solution \Rightarrow \exists corner solution$$
 	\item[(3)] unbounded infeasible (c) max
 	\item[NOT] \sout{un}bounded infeasible
 \end{itemize}
+
 \subsubsection{Generalization}
 \paragraph{Maximize} $c_1x_1 + c_2x_2 + ... + c_nx_n \rightarrow$ objective function (linear)
 \paragraph{Minimize} \phantom, 
@@ -59,6 +61,7 @@ $$\text{(a),(b),(c)} \exists solution \Rightarrow \exists corner solution$$
 \end{tabular}
 \end{center}
 optional non-negativity constraint: $(x_1,x_2,...,x_n \geq 0)$ 
+
 \subsection{Another example: Max-flow}
 \paragraph{Input} directed graph $G=(V,E),s,t \in V$ \\
 $indegree(s) = outdegree(t) = 0$ \\
@@ -75,6 +78,7 @@ s.t.
 \paragraph{Constraints} $f(u,v) \leq c(u,v) \forall (u,v) \in E (\approx 1)$ \\
 $\sum_{(u,v) \in E}f(u.v) = \sum_{(v,u) \in E}f(u,v) \forall u \in V-{s,t}$ (2)
 \paragraph{Negativity} $f(u,v) \geq 0 \forall (u,v) \in E$ 
+
 \subsubsection{Geometric representation in higher dimensions}
 \begin{center}
 	\includegraphics[scale=0.5]{img/dia2}
@@ -131,7 +135,10 @@ s.t. & \textcolor{red}{$x_1+x_2 = 7$} && s.t. & $x_1+x_2'-x_2'' \leq 7$ \\
 &&&& $x_1,x_2',x_2'' \geq 0$ \\
 \end{tabular} \\
 \textcolor{red}{non-negativity for $x_1=x_2'-x_2''$}
-\subsubsection{The simplex method (by an example)}
+
+\subsection{The simplex method}
+
+\subsubsection{By an example}
 \begin{align*}
 \text{maximize} & 5x_1+4x_2+3x_3 \\
 \text{s.t.} & 2x_1+3x_2+x_3 \leq 5 \\
@@ -203,3 +210,136 @@ If $x_2,x_4,x_6$ are increased, then $J$ decreases $\Rightarrow J$ is optimal.
 	\item The last system is equivalent to the first
 	\item In the last system all variables must be non-zero (cant't decrease variable to $<0$ e.g. $13-3\cdot(-2) \lightning x_2 \geq 0$!)
 \end{enumerate}	
+
+\subsubsection{Theory}
+\begin{itemize}
+	\item Preprocessing step: general LP $\stackrel{rules}{\rightarrow}$ LP in standard form. 
+	\item Assumption
+	\begin{enumerate}
+		\item maximize $c_1x_1+c_2x_2+...+c_nx_n$ \\
+		s.t. $a_{j1}x_1+a_{j2}x_2+...a_{jn}x_n \leq bj \forall j=1,2,...,m$ \\
+		$x_i \geq 0 \forall i = 1,2,...,n$
+		\item $b_1,...,b_m \geq 0 \Rightarrow x_1=x_2=...=x_n=0$ is feasible.
+	\end{enumerate} 
+\end{itemize}
+Transform to Slack Form: \\
+maximize $J = \sum_{i=1}^nc_1x_i$ (Initial Dictionary)\\
+s.t. $x_{n+1} = b_j - \sum_{i=1}^na_{ji}x_i \forall j = 1,...,m$ \\
+$x_1 \geq 0 \forall i = 1,...,n+m$ \\
+$x_{n+1}$ are slcak variables. \\
+zero-value variables ($x_1 \forall i = 1,...,n$)$\rightarrow$ non-basic.\\
+non-zero-value variables ($x_i \forall i = n+1,...,n+m$) $\rightarrow$ basic. \\
+At every step of the simplex
+\begin{itemize}
+	\item one basic variable becomes non-basic
+	\item one non-basic variable becomes basic
+\end{itemize}
+At some step of the simplex: \\
+$B$: the set of indices of the basic variables \\
+$N$: the set of indices of the non-basic variables \\
+maximize $J = \underbrace{\overline{J}}_{\text{value of obj. funciton}} + \sum_{i \in N}\overline{c}_ix_i$ \\
+s.t. $x_i = \overline{b}_i - \sum_{j \in N}\overline{a_{ij}}x_j \forall i \in B$ \\
+$x_i \geq 0 \forall i \in B \cup N$ 
+\paragraph{Entering variable}  Is one in $N^+ = \{x_i, \overline{c_i}>0 i \in N\}$ (if $x_i$ is increased, then $J$ is increased)
+\begin{itemize}
+	\item $N^+ = \emptyset \Rightarrow J = \overline{J}$ is optimal (since increasing any of the non-basic variables will decrease $J$)
+	\item $|N^+| > 1$: select the entering variable as the one with the smalles index. 
+	\item[$\Rightarrow$] let $x_k$ be the entering variable.
+\end{itemize}
+\paragraph{Exiting variable} We have to ensure that all basic variables $x_i \geq 0 \forall i \in B \stackrel{\forall i \in N  -\{k\} x_i = 0}{\Longrightarrow}$ \\
+$$\Leftrightarrow \overline{b_i} - \sum_{j \in N}\overline{a_{ij}}x_j \geq 0 \forall i \in B$$ 
+$$\Leftrightarrow \overline{b_i} - \overline{a_{ik}}x_k \geq 0 \forall i \in B$$ 
+$$\stackrel{a_{ik}>0 \lor a_{ik}<0}{\Longleftrightarrow} \begin{cases}
+x_k \leq \frac{\overline{b_i}}{\overline{a_{ik}}} & a_{ik} > 0 \\
+x_k \geq \frac{\overline{b_i}}{\overline{a_{ik}}} & a_{ik} < 0\\
+\end{cases}$$
+We chose the exiting variable as the one for which $\frac{\overline{b_i}}{a_{ik}}$ is minimum and $a_{ik} > 0$ \\
+\fbox{\parbox{\linewidth}{Note: If $\overline{a_{ik}}<0$, there is no restriction on how much we can increase $x_k \Rightarrow$ the System is unboundes and $J \rightarrow + \infty$}} 
+
+\subsection{Duality}
+Each LP (original/primal LP) has an associated, called dual, LP.
+\paragraph{Origninal LP (standard form)} $n$ variables, $m$ constraints \\
+\begin{align*}
+\text{maximize } & c_1x_1+c_2x_2+...+c_nx_n \\
+\text{s.t. } &a_{11}x_x+a_{12}x_2+...+a_{1n}x_n \leq b_1 \\
+&... \\
+&a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n \leq b_m \\
+&x_1,...,x_n \geq 0
+\end{align*}
+\paragraph{Dual LP (standard minimal form)} $m$ variables, $n$ constraints \\
+\begin{align*}
+\text{minimize } & b_1y_1+b_2y_2+...+b_my_m \\
+\text{s.t. } &a_{11}y_x+a_{21}y_2+...+a_{m1}y_m \geq c_1 \\
+&... \\
+&a_{1n}y_1+a_{2n}y_2+...+a_{mn}y_m \geq c_n\\
+&y_1,...,y_m \geq 0
+\end{align*}
+\paragraph{Primal} ~ \\
+\begin{align*}
+\text{maximize } &c^Tx \\
+\text{s.t. } & Ax \leq b \\
+& x \geq 0
+\end{align*}
+$$c = \begin{bmatrix}
+c_1 \\ c_2 \\ ... \\ c_n
+\end{bmatrix} \Rightarrow C^T = \begin{bmatrix}
+c_1,...,c_n
+\end{bmatrix}$$
+$$x = \begin{bmatrix}
+x_1 \\ x_2 \\ ... \\ x_n
+\end{bmatrix} \hspace*{1cm} b = \begin{bmatrix}
+b_1 \\ ... \\ b_m
+\end{bmatrix} \hspace{1cm} A = \begin{bmatrix}
+a_{11} & a_{12} & ... & a_{1n} \\
+a_{21} & a_{22} & ... & a_{2n} \\
+... \\
+a_{m1} & a_{m2} & ... & a_{mn}
+\end{bmatrix} \hspace*{1cm} y = \begin{bmatrix}
+y_1 \\ y_2 \\ ... \\ y_m
+\end{bmatrix}
+$$
+\paragraph{Dual} ~ \\
+\begin{align*}
+\text{minimize } &c^Tx \\
+\text{s.t. } & yA \geq c^T \\
+& y \geq 0
+\end{align*}
+\begin{center}
+\begin{tabular}{c|cccc|c}
+& $x_1$ & $x_2$ & ... & $x_n$ & \\ \hline 
+$y_1$ & $a_{11}$ & $a_{12}$ & ... & $a_{1n}$ & $\leq b_1$ \\
+$y_2$ & $a_{21}$ & $a_{22}$ & ... & $a_{2n}$ & $\leq b_2$ \\
+... & ... & ... &...& ...& ... \\
+$y_n$ & $a_{m1}$ & $a_{m2}$ & ... & $a_{mn}$ & $\leq b_m$ \\ \hline 
+& $\geq c_1$ & $\geq c_2$ & ... & $\geq c_n$ & \\
+\end{tabular} 
+\end{center}
+1. equation of dual: $y$ columns and the $x_1$ column. \\
+1. equation of orimal: $x$ row and $y_1$ row
+\begin{align*}
+\text{maximize } &100x_1 + 100x_2 \\
+\text{s.t. } &x_1+2x_2 \leq 600 \\
+&3x_1+x_2 \leq 900 \\
+x_1,x_2 \geq 0
+\end{align*}
+Dual:
+\begin{align*}
+\text{minimize } &600y_1+900y_2 \\
+\text{s.t. } &y_1+3y_2 \geq 100 \\
+&2y_1+y_2\geq 100 \\
+y_1,y_2 \geq 0 
+\end{align*}
+
+\subsubsection{Weak duality theorem}
+If $x = [x_1,...,x_n]^T$ is a feasible solution of the primal \\
+and $y = [y_1,...,y_n]^T$ is a feasible solution of the dual \\
+$\Rightarrow c^T \leq y^Tb$ \\
+Any feasible solution of the primal is upper bounded by any feasible solution of the dual.
+\paragraph{Proof} $x$ is feasible in the primal $\Rightarrow Ax \leq b; x \geq 0 \stackrel{ (y^T*)\geq 0}{\Rightarrow} \textcolor{red}{y^TAx} \leq y^Tb$ \\
+$y$ is feasible in the dual $\Rightarrow yA \geq c; y \geq 0 \stackrel{\cdot (*x) \geq 0}{\Rightarrow} \textcolor{red}{y^TAx} \geq c^Tx$ 
+$$\Rightarrow c^Tx \leq y^TAx \leq y^Tb	$$
+$$\underbrace{-------------op}_{primal \; values}---------\underbrace{od-------------}_{dual \; values}$$
+op = optimal primal value, od = optimal dual value \\
+Is there a Gap between op and od? $\stackrel{Strong \; duality \; theorem}{\longrightarrow}$ $\nexists$ Gap
+
+\paragraph{Corollary} If $x,y$ are feasible for the primal and the dual s.t. $c^Tx = y^Tb$, then $x\&y$ are optimal.
